@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Шоколенд</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="css/style.css">
+
+</head>
+<body>
+  <header>
+      <div class="container">
+          <div class="header-top">
+              <a href="index.html" class="logo">
+                  Chocolate
+              </a>
+              <nav class="nav-main">
+                  <ul>
+                      <li><a href="index.html">Главная</a></li>
+                      <li><a href="catalog.html">Фигуры</a></li>
+                      <li><a href="about.html">О нас</a></li>
+                      <li><a href="order.html">Заказать</a></li>
+                  </ul>
+              </nav>
+              <div class="header-icons">
+                  <a href="login.html">Вход</a></li>
+              </div>
+              <button class="hamburger" aria-label="Меню">
+                  <i class="fas fa-bars"></i>
+              </button>
+          </div>
+      </div>
+  </header>
+
+  <main>
+    <section class="catalog-header bg-light-pink">
+      <div class="container">
+        <h1 class="catalog-title">Каталог букетов</h1>
+        <p class="catalog-subtitle">
+          Выберите идеальный букет для любого случая - от романтического свидания до торжественного мероприятия
+        </p>
+      </div>
+    </section>
+
+    <section class="catalog-filters">
+      <div class="container">
+        <div class="filter-tabs">
+          <a href="category.html?cat=all" class="filter-tab active">Все букеты</a>
+          <a href="category.html?cat=romantic" class="filter-tab">Романтические</a>
+          <a href="category.html?cat=wedding" class="filter-tab">Свадебные</a>
+          <a href="category.html?cat=spring" class="filter-tab">Весенние</a>
+          <a href="category.html?cat=birthday" class="filter-tab">День рождения</a>
+          <a href="category.html?cat=business" class="filter-tab">Деловые</a>
+        </div>
+      </div>
+    </section>
+
+    <section class="catalog-products">
+      <div class="container">
+        <div class="products-grid" id="products-container">
+          <!-- Букет 1 -->
+          <div class="product-card" data-category="romantic">
+            <div class="product-image" style="background-image: url('https://i.pinimg.com/736x/1a/4f/69/1a4f691a708ad3a6c7a5681aa8a183e4.jpg')">
+              <div class="product-badge">Хит продаж</div>
+            </div>
+            <div class="product-info">
+              <h3>Нежность</h3>
+              <p>Розы, пионы, эвкалипт</p>
+              <div class="product-price">3 500 ₽</div>
+              <a href="tel:+79991234567" class="btn btn-small">Заказать</a>
+            </div>
+          </div>
+
+          <!-- Букет 2 -->
+          <div class="product-card" data-category="wedding">
+            <div class="product-image" style="background-image: url('https://i.pinimg.com/736x/c4/ae/f0/c4aef06a3a32c70ce1ed75271ab1d3e5.jpg')">
+              <div class="product-badge">Новинка</div>
+            </div>
+            <div class="product-info">
+              <h3>Элегантность</h3>
+              <p>Белые розы, гортензии</p>
+              <div class="product-price">4 200 ₽</div>
+              <a href="tel:+79991234567" class="btn btn-small">Заказать</a>
+            </div>
+          </div>
+
+          <!-- Букет 3 -->
+          <div class="product-card" data-category="spring">
+            <div class="product-image" style="background-image: url('https://i.pinimg.com/736x/48/8b/9b/488b9b95779fdf4cf9a10121874ee0e2.jpg')">
+              <div class="product-badge">Сезонный</div>
+            </div>
+            <div class="product-info">
+              <h3>Весеннее настроение</h3>
+              <p>Яркие тюльпаны и гиацинты в корзине</p>
+              <div class="product-price">2 800 ₽</div>
+              <a href="tel:+79991234567" class="btn btn-small">Заказать</a>
+            </div>
+          </div>
+
+          <!-- Букет 4 -->
+          <div class="product-card" data-category="luxury">
+            <div class="product-image" style="background-image: url('https://i.pinimg.com/736x/f9/33/bb/f933bbe990be5869572403ecf0b7b10f.jpg')">
+              <div class="product-badge">Эксклюзив</div>
+            </div>
+            <div class="product-info">
+              <h3>Королевский</h3>
+              <p>Орхидеи, розы, каллы</p>
+              <div class="product-price">6 500 ₽</div>
+              <a href="tel:+79991234567" class="btn btn-small">Заказать</a>
+            </div>
+          </div>
+
+          <!-- Букет 5 -->
+          <div class="product-card" data-category="romantic">
+            <div class="product-image" style="background-image: url('https://i.pinimg.com/736x/03/93/d7/0393d78272a9a765b7520dcb59154c57.jpg')">
+              <div class="product-badge">Хит продаж</div>
+            </div>
+            <div class="product-info">
+              <h3>Любимой</h3>
+              <p>Красные розы, гипсофила</p>
+              <div class="product-price">3 200 ₽</div>
+              <a href="tel:+79991234567" class="btn btn-small">Заказать</a>
+            </div>
+          </div>
+
+          <!-- Букет 6 -->
+          <div class="product-card" data-category="wedding">
+            <div class="product-image" style="background-image: url('https://i.pinimg.com/736x/b2/96/77/b2967780076aac925b6c4a7398be6788.jpg')">
+              <div class="product-badge">Бестселлер</div>
+            </div>
+            <div class="product-info">
+              <h3>Невеста</h3>
+              <p>Белые пионы, розы, эвкалипт</p>
+              <div class="product-price">5 000 ₽</div>
+              <a href="tel:+79991234567" class="btn btn-small">Заказать</a>
+            </div>
+          </div>
+
+          <!-- Букет 7 (Романтика) -->
+          <div class="product-card" data-category="romantic">
+            <div class="product-image" style="background-image: url('https://i.pinimg.com/736x/97/78/33/9778339cf8a1e1e1851e6b6ed4ce81c6.jpg')">
+              <div class="product-badge">Рейтинг 4,5★</div>
+            </div>
+            <div class="product-info">
+              <h3>Романтический букет</h3>
+              <p>Нежные розы и пионы в элегантной упаковке</p>
+              <div class="product-price">
+                <span class="current-price">3 500 ₽</span>
+                <span class="old-price">4 200 ₽</span>
+              </div>
+              <a href="tel:+79991234567" class="btn btn-small">Заказать</a>
+            </div>
+          </div>
+
+          <!-- Букет 8 (Радость) -->
+          <div class="product-card" data-category="joy">
+            <div class="product-image" style="background-image: url('https://i.pinimg.com/736x/c3/e2/60/c3e26031a5be296b2db4df0cbe002d74.jpg')">
+              <div class="product-badge">Рейтинг 4★</div>
+            </div>
+            <div class="product-info">
+              <h3>Радость</h3>
+              <p>Яркие герберы и хризантемы</p>
+              <div class="product-price">3 200 ₽</div>
+              <a href="tel:+79991234567" class="btn btn-small">Заказать</a>
+            </div>
+          </div>
+
+          <!-- Букет 9 (Праздник) -->
+          <div class="product-card" data-category="holiday">
+            <div class="product-image" style="background-image: url('https://i.pinimg.com/736x/1b/d5/bc/1bd5bca8f6efdfcee2b1c03e0906dc40.jpg')">
+              <div class="product-badge">Рейтинг 5★</div>
+            </div>
+            <div class="product-info">
+              <h3>Праздник</h3>
+              <p>Ранункулюсы, тюльпаны и гиацинты</p>
+              <div class="product-price">4 800 ₽</div>
+              <a href="tel:+79991234567" class="btn btn-small">Заказать</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="catalog-cta bg-soft-green">
+      <div class="container">
+        <h2>Не нашли нужный букет?</h2>
+        <p>Мы создадим индивидуальную композицию специально для вас</p>
+        <a href="tel:+79991234567" class="btn">Позвонить флористу</a>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="container">
+        <div class="footer-content">
+            <div class="footer-column">
+                <h3>Магазин</h3>
+                <ul>
+                    <li><a href="index.html">Главная</a></li>
+                    <li><a href="catalog.html">Букеты</a></li>
+                    <li><a href="about.html">О нас</a></li>
+                    <li><a href="order.html">Заказать</a></li>
+                </ul>
+            </div>
+            <div class="footer-column">
+                <h3>Контакты</h3>
+                <ul>
+                  <li> г. Ростов-на-Дону</li>
+                    <li>8‒800‒555‒16‒15</li>
+                    <li>info@flower.ru</li>
+                </ul>
+            </div>
+            <div class="footer-column">
+                <h3>Часы работы</h3>
+                <ul>
+                    <li>Пн-Пт: 9:00 - 20:00</li>
+                    <li>Сб-Вс: 10:00 - 18:00</li>
+                </ul>
+            </div>
+        </div>
+        <div class="copyright">
+            <p>© 2025 Flowwow. Все права защищены.</p>
+        </div>
+    </div>
+  </footer>
+
+  <script src="js/catalog.js"></script>
+</body>
+</html>
