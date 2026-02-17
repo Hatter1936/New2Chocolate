@@ -179,11 +179,11 @@ async function displayCategoryProducts(categoryId) {
     }
     
     const categoryMap = {
-        'romantic': 'Романтические букеты',
-        'wedding': 'Свадебные букеты',
-        'spring': 'Весенние букеты',
-        'birthday': 'Букеты на день рождения',
-        'business': 'Деловые букеты',
+        'milk': 'Романтические букеты',
+        'dark': 'Свадебные букеты',
+        'white': 'Весенние букеты',
+        'ruby': 'Букеты на день рождения',
+        'color': 'Деловые букеты',
         'all': 'Все'
     };
     
