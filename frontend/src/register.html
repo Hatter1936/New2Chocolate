@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Шоколенд</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <header>
+      <div class="container">
+          <div class="header-top">
+              <a href="index.html" class="logo">
+                  Chocolate
+              </a>
+              <nav class="nav-main">
+                  <ul>
+                      <li><a href="index.html">Главная</a></li>
+                      <li><a href="catalog.html">Фигуры</a></li>
+                      <li><a href="about.html">О нас</a></li>
+                      <li><a href="order.html">Заказать</a></li>
+                      <li><a href="cart.html"><i class="fa-solid fa-cart-shopping"></i></a></li>
+                  </ul>
+              </nav>
+              <div class="header-icons">
+                  <a href="login.html">Вход</a></li>
+              </div>
+              <button class="hamburger" aria-label="Меню">
+                  <i class="fas fa-bars"></i>
+              </button>
+          </div>
+      </div>
+  </header>
+
+  <main>
+    <section class="order-section">
+        <div class="container">
+            <h2 class="section-title">Регистрация</h2>
+            <div class="register-form-container">
+                <form id="registerForm" class="register-form">
+                    <div class="form-group">
+                        <label for="username">Имя пользователя *</label>
+                        <input type="text" id="username" name="username" required 
+                               placeholder="Придумайте логин">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="email">Email *</label>
+                        <input type="email" id="email" name="email" required 
+                               placeholder="Ваш email">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="first_name">Имя</label>
+                        <input type="text" id="first_name" name="first_name" 
+                               placeholder="Ваше имя">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="last_name">Фамилия</label>
+                        <input type="text" id="last_name" name="last_name" 
+                               placeholder="Ваша фамилия">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="phone">Телефон</label>
+                        <input type="tel" id="phone" name="phone" 
+                               placeholder="+7 (999) 123-45-67">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="password">Пароль *</label>
+                        <input type="password" id="password" name="password" required 
+                               placeholder="Придумайте пароль">
+                        <small class="hint">Минимум 8 символов</small>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="password2">Повторите пароль *</label>
+                        <input type="password" id="password2" name="password2" required 
+                               placeholder="Повторите пароль">
+                    </div>
+                    
+                    <div class="form-error" id="registerError" style="display: none; color: #f44336; margin-bottom: 15px;"></div>
+                    
+                    <button type="submit" class="btn btn-primary" id="registerBtn">
+                        <span class="btn-text">Зарегистрироваться</span>
+                        <span class="btn-loader" style="display: none;">
+                            <i class="fas fa-spinner fa-spin"></i>
+                        </span>
+                    </button>
+                    
+                    <div class="form-footer">
+                        <a href="login.html">Уже есть аккаунт? Войти</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </section>
+</main>
+
+<script src="js/modules/auth.js"></script>
+<script>
+document.getElementById('registerForm').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    
+    const password = document.getElementById('password').value;
+    const password2 = document.getElementById('password2').value;
+    const errorDiv = document.getElementById('registerError');
+    const btn = document.getElementById('registerBtn');
+    const btnText = btn.querySelector('.btn-text');
+    const btnLoader = btn.querySelector('.btn-loader');
+    
+    // Проверка паролей
+    if (password !== password2) {
+        errorDiv.textContent = 'Пароли не совпадают';
+        errorDiv.style.display = 'block';
+        return;
+    }
+    
+    // Собираем данные
+    const userData = {
+        username: document.getElementById('username').value,
+        email: document.getElementById('email').value,
+        password: password,
+        password2: password2,
+        first_name: document.getElementById('first_name').value,
+        last_name: document.getElementById('last_name').value,
+        phone: document.getElementById('phone').value
+    };
+    
+    // Показываем загрузку
+    btn.disabled = true;
+    btnText.style.display = 'none';
+    btnLoader.style.display = 'inline-block';
+    errorDiv.style.display = 'none';
+    
+    const result = await auth.register(userData);
+    
+    if (!result.success) {
+        // Показываем ошибку
+        let errorMessage = 'Ошибка регистрации';
+        if (result.error) {
+            // Обрабатываем ошибки от сервера
+            if (result.error.username) errorMessage = result.error.username[0];
+            else if (result.error.email) errorMessage = result.error.email[0];
+            else if (result.error.password) errorMessage = result.error.password[0];
+            else errorMessage = result.error.error || errorMessage;
+        }
+        
+        errorDiv.textContent = errorMessage;
+        errorDiv.style.display = 'block';
+        
+        // Возвращаем кнопку в исходное состояние
+        btn.disabled = false;
+        btnText.style.display = 'inline-block';
+        btnLoader.style.display = 'none';
+    }
+});
+</script>
+
+<style>
+.register-form-container {
+    max-width: 500px;
+    margin: 0 auto;
+    padding: 30px;
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0 3px 15px rgba(0,0,0,0.1);
+}
+
+.register-form .form-group {
+    margin-bottom: 20px;
+}
+
+.register-form label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 500;
+    color: var(--primary-color);
+}
+
+.register-form input {
+    width: 100%;
+    padding: 12px 15px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 16px;
+    transition: border-color 0.3s;
+}
+
+.register-form input:focus {
+    outline: none;
+    border-color: var(--primary-color);
+}
+
+.register-form .hint {
+    display: block;
+    margin-top: 5px;
+    font-size: 12px;
+    color: #999;
+}
+
+.register-form .btn {
+    width: 100%;
+    padding: 14px;
+    font-size: 16px;
+    margin-top: 10px;
+}
+
+.form-footer {
+    margin-top: 20px;
+    text-align: center;
+}
+
+.form-footer a {
+    color: var(--primary-color);
+    text-decoration: none;
+}
+
+.form-footer a:hover {
+    text-decoration: underline;
+}
+</style>
+
+  <footer>
+    <div class="container">
+        <div class="footer-content">
+            <div class="footer-column">
+                <h3>Магазин</h3>
+                <ul>
+                    <li><a href="index.html">Главная</a></li>
+                    <li><a href="catalog.html">Букеты</a></li>
+                    <li><a href="about.html">О нас</a></li>
+                    <li><a href="order.html">Заказать</a></li>
+                </ul>
+            </div>
+            <div class="footer-column">
+                <h3>Контакты</h3>
+                <ul>
+                  <li> г. Ростов-на-Дону</li>
+                    <li>8‒800‒555‒16‒15</li>
+                    <li>info@flower.ru</li>
+                </ul>
+            </div>
+            <div class="footer-column">
+                <h3>Часы работы</h3>
+                <ul>
+                    <li>Пн-Пт: 9:00 - 20:00</li>
+                    <li>Сб-Вс: 10:00 - 18:00</li>
+                </ul>
+            </div>
+        </div>
+        <div class="copyright">
+            <p>© 2025 Chocolate. Все права защищены.</p>
+        </div>
+    </div>
+  </footer>
+</body>
+<script src="js/modules/auth.js"></script>
+<script>
+document.getElementById('registerForm').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    
+    const username = document.getElementById('username').value.trim();
+    const email = document.getElementById('email').value.trim();
+    const password = document.getElementById('password').value;
+    const password2 = document.getElementById('password2').value;
+    const first_name = document.getElementById('first_name').value.trim();
+    const last_name = document.getElementById('last_name').value.trim();
+    const phone = document.getElementById('phone').value.trim();
+    
+    const errorDiv = document.getElementById('registerError');
+    const btn = document.getElementById('registerBtn');
+    const btnText = btn.querySelector('.btn-text');
+    const btnLoader = btn.querySelector('.btn-loader');
+    
+    // Проверки на стороне клиента
+    if (!username || !email || !password || !password2) {
+        errorDiv.textContent = 'Заполните все обязательные поля';
+        errorDiv.style.display = 'block';
+        return;
+    }
+    
+    if (password.length < 6) {
+        errorDiv.textContent = 'Пароль должен быть минимум 6 символов';
+        errorDiv.style.display = 'block';
+        return;
+    }
+    
+    if (password !== password2) {
+        errorDiv.textContent = 'Пароли не совпадают';
+        errorDiv.style.display = 'block';
+        return;
+    }
+    
+    if (!email.includes('@') || !email.includes('.')) {
+        errorDiv.textContent = 'Введите корректный email';
+        errorDiv.style.display = 'block';
+        return;
+    }
+    
+    // Собираем данные - ВАЖНО: добавляем password2!
+    const userData = {
+        username: username,
+        email: email,
+        password: password,
+        password2: password2,  // ЭТО КЛЮЧЕВОЕ ПОЛЕ!
+        first_name: first_name || '',
+        last_name: last_name || '',
+        phone: phone || ''
+    };
+    
+    console.log('Отправка данных на регистрацию:', userData);
+    
+    // Показываем загрузку
+    btn.disabled = true;
+    btnText.style.display = 'none';
+    btnLoader.style.display = 'inline-block';
+    errorDiv.style.display = 'none';
+    
+    const result = await auth.register(userData);
+    
+    if (!result.success) {
+        // Показываем ошибку
+        let errorMessage = 'Ошибка регистрации';
+        if (result.error) {
+            if (result.error.username) errorMessage = result.error.username[0];
+            else if (result.error.email) errorMessage = result.error.email[0];
+            else if (result.error.password) errorMessage = result.error.password[0];
+            else if (result.error.non_field_errors) errorMessage = result.error.non_field_errors[0];
+            else errorMessage = result.error.error || errorMessage;
+        }
+        
+        errorDiv.textContent = errorMessage;
+        errorDiv.style.display = 'block';
+        
+        // Возвращаем кнопку в исходное состояние
+        btn.disabled = false;
+        btnText.style.display = 'inline-block';
+        btnLoader.style.display = 'none';
+    }
+});
+</script>
+<script src="js/modules/auth-ui.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        console.log('Страница логина/регистрации - защита отключена');
+    });
+</script>
+</html>

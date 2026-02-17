@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Шоколенд - Корзина</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        .loading-cart {
+            text-align: center;
+            padding: 40px;
+            color: var(--secondary-color);
+        }
+        .empty-cart-message {
+            text-align: center;
+            padding: 60px 20px;
+        }
+        .empty-cart-message i {
+            font-size: 4rem;
+            color: var(--secondary-color);
+            margin-bottom: 20px;
+        }
+        .empty-cart-message h2 {
+            margin-bottom: 10px;
+            color: var(--primary-color);
+        }
+        .empty-cart-message p {
+            color: #666;
+            margin-bottom: 30px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="header-top">
+                <a href="index.html" class="logo">Chocolate</a>
+                <nav class="nav-main">
+                    <ul>
+                        <li><a href="index.html">Главная</a></li>
+                        <li><a href="catalog.html">Фигуры</a></li>
+                        <li><a href="about.html">О нас</a></li>
+                        <li><a href="order.html">Заказать</a></li>
+                        <li><a href="cart.html"><i class="fa-solid fa-cart-shopping"></i></a></li>
+                    </ul>
+                </nav>
+                <div class="header-icons"></div>
+                <button class="hamburger" aria-label="Меню">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <section class="cart-section">
+            <div class="container">
+                <h1 class="page-title">Корзина</h1>
+                
+                <!-- Основной контейнер корзины -->
+                <div class="cart-layout">
+                    <!-- Левая колонка: Товары -->
+                    <div class="cart-items">
+                        <h2>Товары в корзине</h2>
+                        <div id="cart-items-container" class="cart-items-container">
+                            <div class="loading-cart">Загрузка корзины...</div>
+                        </div>
+                    </div>
+
+                    <!-- Правая колонка: Оформление -->
+                    <div class="cart-checkout">
+                        <h2>Оформление заказа</h2>
+                        
+                        <!-- Блок выбора способа получения -->
+                        <div class="checkout-section">
+                            <h3>Способ получения</h3>
+                            <div class="delivery-options">
+                                <label class="delivery-option">
+                                    <input type="radio" name="delivery-type" value="delivery" checked>
+                                    <span class="option-content">
+                                        <i class="fas fa-truck"></i>
+                                        <span>Доставка</span>
+                                    </span>
+                                </label>
+                                <label class="delivery-option">
+                                    <input type="radio" name="delivery-type" value="pickup">
+                                    <span class="option-content">
+                                        <i class="fas fa-store"></i>
+                                        <span>Самовывоз</span>
+                                    </span>
+                                </label>
+                            </div>
+
+                            <!-- Форма для доставки -->
+                            <div class="delivery-form active" id="delivery-form">
+                                <div class="form-group">
+                                    <label for="address">Адрес доставки</label>
+                                    <input type="text" id="address" placeholder="Улица, дом, квартира">
+                                </div>
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label for="entrance">Подъезд</label>
+                                        <input type="text" id="entrance">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="floor">Этаж</label>
+                                        <input type="text" id="floor">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="flat">Кв/офис</label>
+                                        <input type="text" id="flat">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="comment">Комментарий</label>
+                                    <input type="text" id="comment" placeholder="Домофон, особенности проезда">
+                                </div>
+                            </div>
+
+                            <!-- Форма для самовывоза -->
+                            <div class="pickup-form" id="pickup-form">
+                                <p class="pickup-info">
+                                    <i class="fas fa-map-marker-alt"></i>
+                                    г. Ростов-на-Дону, ул. Примерная, д. 123
+                                </p>
+                                <p class="pickup-info">
+                                    <i class="fas fa-clock"></i>
+                                    Пн-Пт: 9:00 - 20:00, Сб-Вс: 10:00 - 18:00
+                                </p>
+                            </div>
+                        </div>
+
+                        <!-- Блок способов оплаты -->
+                        <div class="checkout-section">
+                            <h3>Способ оплаты</h3>
+                            <div class="payment-options">
+                                <label class="payment-option">
+                                    <input type="radio" name="payment" value="card" checked>
+                                    <span class="option-content">
+                                        <i class="fas fa-credit-card"></i>
+                                        <span>Банковская карта</span>
+                                    </span>
+                                </label>
+                                <label class="payment-option">
+                                    <input type="radio" name="payment" value="sbp">
+                                    <span class="option-content">
+                                        <i class="fas fa-qrcode"></i>
+                                        <span>СБП</span>
+                                    </span>
+                                </label>
+                                <label class="payment-option">
+                                    <input type="radio" name="payment" value="cash">
+                                    <span class="option-content">
+                                        <i class="fas fa-money-bill-wave"></i>
+                                        <span>Наличными при получении</span>
+                                    </span>
+                                </label>
+                            </div>
+                        </div>
+
+                        <!-- Итоговая сумма -->
+                        <div class="cart-total" id="cart-total">
+                            <div class="total-row">
+                                <span>Товары (<span id="total-items-count">0</span> шт.)</span>
+                                <span class="total-price" id="total-price">0 ₽</span>
+                            </div>
+                            <div class="total-row">
+                                <span>Доставка</span>
+                                <span>Бесплатно</span>
+                            </div>
+                            <div class="total-row grand-total">
+                                <span>Итого</span>
+                                <span class="total-price-grand" id="grand-total">0 ₽</span>
+                            </div>
+                        </div>
+
+                        <!-- Кнопка оформления -->
+                        <button class="btn btn-checkout" id="checkout-btn">Оформить заказ</button>
+                        <p class="checkout-agreement">
+                            Нажимая "Оформить заказ", вы соглашаетесь с условиями оферты и политикой обработки персональных данных
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-column">
+                    <h3>Магазин</h3>
+                    <ul>
+                        <li><a href="index.html">Главная</a></li>
+                        <li><a href="catalog.html">Фигуры</a></li>
+                        <li><a href="about.html">О нас</a></li>
+                        <li><a href="order.html">Заказать</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>Контакты</h3>
+                    <ul>
+                        <li>г. Ростов-на-Дону</li>
+                        <li>8‒800‒555‒16‒15</li>
+                        <li>info@chocolate.ru</li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>Часы работы</h3>
+                    <ul>
+                        <li>Пн-Пт: 9:00 - 20:00</li>
+                        <li>Сб-Вс: 10:00 - 18:00</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="copyright">
+                <p>© 2025 Chocolate. Все права защищены.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- ТОЛЬКО НУЖНЫЕ СКРИПТЫ, КАЖДЫЙ ПО 1 РАЗУ -->
+    <script src="js/modules/auth.js"></script>
+    <script src="js/modules/auth-ui.js"></script>
+    <script src="js/modules/cart-ui.js"></script>
+    <script src="js/modules/catalog-loader.js"></script>
+
+    <script>
+        // Переключение между доставкой и самовывозом
+        document.addEventListener('DOMContentLoaded', function() {
+            const deliveryRadios = document.querySelectorAll('input[name="delivery-type"]');
+            const deliveryForm = document.getElementById('delivery-form');
+            const pickupForm = document.getElementById('pickup-form');
+
+            deliveryRadios.forEach(radio => {
+                radio.addEventListener('change', function() {
+                    if (this.value === 'delivery') {
+                        deliveryForm?.classList.add('active');
+                        pickupForm?.classList.remove('active');
+                    } else {
+                        deliveryForm?.classList.remove('active');
+                        pickupForm?.classList.add('active');
+                    }
+                });
+            });
+
+            // Обработчик для кнопки оформления заказа
+            document.getElementById('checkout-btn').addEventListener('click', function() {
+                if (window.cartUI && typeof window.cartUI.createOrder === 'function') {
+                    window.cartUI.createOrder();
+                }
+            });
+        });
+    </script>
+    <script>
+    (function() {
+        const token = localStorage.getItem('access_token');
+        if (!token) {
+            window.location.href = 'login.html?redirect=cart.html';
+        }
+    })();
+</script>
+</body>
+</html>

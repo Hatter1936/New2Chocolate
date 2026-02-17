@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Шоколенд</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <!-- Шапка -->
+    <header>
+        <div class="container">
+            <div class="header-top">
+                <a href="index.html" class="logo">
+                    Chocolate
+                </a>
+                <nav class="nav-main">
+                    <ul>
+                        <li><a href="index.html">Главная</a></li>
+                        <li><a href="catalog.html">Фигуры</a></li>
+                        <li><a href="about.html">О нас</a></li>
+                        <li><a href="order.html">Заказать</a></li>
+                        <li><a href="cart.html"><i class="fa-solid fa-cart-shopping"></i></a></li>
+                    </ul>
+                </nav>
+                <div class="header-icons">
+                    <a href="login.html">Вход</a></li>
+                </div>
+                <button class="hamburger" aria-label="Меню">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Герой-секция -->
+    <section class="hero">
+        <div class="hero-slider">
+            <div class="slide active" style="background-image: linear-gradient(rgba(121, 85, 72, 0.6), rgba(141, 110, 99, 0.6)), url('https://i.pinimg.com/originals/1b/fa/79/1bfa79eb80a8493df605f27b58d47eda.jpg');">
+                <div class="container">
+                    <h1>Сайт точно про шоколадные фигурки</h1>
+                    <p>Мы любим акито шинономе.</p>
+                    <a href="order.html" class="btn">Заказать букет</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Популярные товары -->
+    <section class="popular">
+        <div class="container">
+            <h2 class="section-title">Популярные букеты</h2>
+            <p class="section-subtitle">Выберите идеальный букет для любого случая</p>
+
+            <div class="product-grid">
+                <div class="product-card">
+                    <div class="product-img" style="background-image: url('https://i.pinimg.com/736x/97/78/33/9778339cf8a1e1e1851e6b6ed4ce81c6.jpg');">
+                        <span class="product-badge">Хит продаж</span>
+                        <button class="wishlist-btn"><i class="far fa-heart"></i></button>
+                    </div>
+                    <div class="product-info">
+                        <h3>Романтический букет</h3>
+                        <p>Нежные розы и пионы в элегантной упаковке</p>
+                        <div class="product-rating">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star-half-alt"></i>
+                            <span>(24)</span>
+                        </div>
+                        <div class="product-price">
+                            <span class="current-price">3 500 ₽</span>
+                            <span class="old-price">4 200 ₽</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="product-card">
+                    <div class="product-img" style="background-image: url('https://i.pinimg.com/736x/48/8b/9b/488b9b95779fdf4cf9a10121874ee0e2.jpg');">
+                        <button class="wishlist-btn"><i class="far fa-heart"></i></button>
+                    </div>
+                    <div class="product-info">
+                        <h3>Весеннее настроение</h3>
+                        <p>Яркие тюльпаны и гиацинты в корзине</p>
+                        <div class="product-rating">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="far fa-star"></i>
+                            <span>(18)</span>
+                        </div>
+                        <div class="product-price">
+                            <span class="current-price">2 800 ₽</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="product-card">
+                    <div class="product-img" style="background-image: url('https://i.pinimg.com/736x/c4/ae/f0/c4aef06a3a32c70ce1ed75271ab1d3e5.jpg');">
+                        <span class="product-badge new">Новинка</span>
+                        <button class="wishlist-btn"><i class="far fa-heart"></i></button>
+                    </div>
+                    <div class="product-info">
+                        <h3>Элегантность</h3>
+                        <p>Белые розы, гортензии</p>
+                        <div class="product-rating">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <span>(32)</span>
+                        </div>
+                        <div class="product-price">
+                            <span class="current-price">4 200 ₽</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="text-center" style="margin-top: 40px;">
+                <a href="catalog.html" class="btn btn-outline">Посмотреть всю коллекцию <i class="fas fa-arrow-right"></i></a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Категории -->
+    <section class="categories">
+        <div class="container">
+            <h2 class="section-title">Виды шоколада</h2>
+            <p class="section-subtitle">Фигуры из шоколада на ваш выбор</p>
+
+            <div class="category-grid">
+                <a href="category.html?cat=dark" class="category-card">
+                    <div class="category-img" style="background-image: url('https://i.pinimg.com/736x/04/99/5d/04995d268635d11f1ee0a659525a0711.jpg');"></div>
+                    <h3>Тёмный</h3>
+                </a>
+
+                <a href="category.html?cat=ruby" class="category-card">
+                    <div class="category-img" style="background-image: url('https://i.pinimg.com/736x/ac/ed/d2/acedd2e2b953d0637e41e9fffdbbfee7.jpg');"></div>
+                    <h3>Рубиновый</h3>
+                </a>
+
+                <a href="category.html?cat=milk" class="category-card">
+                    <div class="category-img" style="background-image: url('https://i.pinimg.com/736x/d9/6d/7c/d96d7c6e332d711c13acb67193b7380a.jpg');"></div>
+                    <h3>Молочный</h3>
+                </a>
+
+                <a href="category.html?cat=color" class="category-card">
+                    <div class="category-img" style="background-image: url('https://i.pinimg.com/736x/44/b8/fa/44b8fa8a8744b195159eb5a3a19e2919.jpg');"></div>
+                    <h3>Цветной</h3>
+                </a>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- Преимущества -->
+    <section class="features">
+        <div class="container">
+            <h2 class="section-title">Преимущества</h2>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon"><i class="fas fa-truck"></i></div>
+                    <h3>Быстрая доставка</h3>
+                    <p>Доставка в день заказа в пределах города. Курьер позвонит за 30 минут до приезда.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon"><i class="fas fa-leaf"></i></div>
+                    <h3>Свежие цветы</h3>
+                    <p>Только свежие цветы от проверенных поставщиков. Гарантия свежести 7 дней.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon"><i class="fas fa-gift"></i></div>
+                    <h3>Подарочная упаковка</h3>
+                    <p>Красивая упаковка и открытка в подарок. Возможность добавить мягкую игрушку или конфеты.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon"><i class="fas fa-lock"></i></div>
+                    <h3>Безопасная оплата</h3>
+                    <p>Оплата онлайн или наличными при получении. Все платежи защищены.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Отзывы -->
+    <section class="testimonials">
+        <div class="container">
+            <h2 class="section-title">Отзывы наших клиентов</h2>
+            <p class="section-subtitle">Что говорят о нас покупатели</p>
+
+            <div class="testimonial-slider">
+                <div class="testimonial-slide active">
+                    <div class="testimonial-content">
+                        <div class="rating">
+                            <i class="fas fa-star"></i>
+                            <i class="fa-regular fa-star"></i>
+                            <i class="fa-regular fa-star"></i>
+                            <i class="fa-regular fa-star"></i>
+                            <i class="fa-regular fa-star"></i>
+                        </div>
+                        <p class="testimonial-text">"Мда фигурки фигня полная."</p>
+                        <div class="client-info">
+                            <div class="client-photo" style="background-image: url('file:///E:/1%D0%9A%D0%BB%D0%B0%D0%B4%D0%BE%D0%B2%D0%BA%D0%B0/0.5%20%D0%92%D1%80%D0%B5%D0%BC%D0%B5%D0%BD%D0%B0%20%D0%BE%D0%B1%D0%B2%D0%BE%D0%B4%D0%BE%D0%BA/%D0%AF+%D0%9C%D1%8D%D0%B9%D0%B1%D0%BB.png');"></div>
+                            <div class="client-details">
+                                <h4>Скибиди Сигма</h4>
+                                <p>Москва</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="testimonial-slide">
+                    <div class="testimonial-content">
+                        <div class="rating">
+                            <i class="fas fa-star"></i>
+                            <i class="fa-regular fa-star"></i>
+                            <i class="fa-regular fa-star"></i>
+                            <i class="fa-regular fa-star"></i>
+                            <i class="fa-regular fa-star"></i>
+                        </div>
+                        <p class="testimonial-text">"Треш креш"</p>
+                        <div class="client-info">
+                            <div class="client-photo" style="background-image: url('https://sun9-16.userapi.com/s/v1/ig2/BclISYNvFjjmK60uYZX-MVlGVqD6F-FcyVfvt-00-NIHXrvkxxpUagRxN80PH47MOxeboRAKbPqe88D3ypAWGaUp.jpg?quality=95&as=32x21,48x32,72x48,108x72,160x107,240x160,360x240,480x320,540x360,640x427,720x480,1080x720,1280x853,1440x960,1500x1000&from=bu&cs=1500x0');"></div>
+                            <div class="client-details">
+                                <h4>Хомяк</h4>
+                                <p>Уличный секай</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="testimonial-slide">
+                    <div class="testimonial-content">
+                        <div class="rating">
+                            <i class="fas fa-star"></i>
+                            <i class="fa-regular fa-star"></i>
+                            <i class="fa-regular fa-star"></i>
+                            <i class="fa-regular fa-star"></i>
+                            <i class="fa-regular fa-star"></i>
+                        </div>
+                        <p class="testimonial-text">"Я люблю акито шинономе"</p>
+                        <div class="client-info">
+                            <div class="client-photo" style="background-image: url('file:///E:/%D0%BA%D0%B8%D1%80%D0%B8%D0%BD%D1%8B%20%D1%84%D0%B0%D0%B9%D0%BB%D1%8B/%D0%90%D1%80%D1%82%D1%8B/%D0%B0%D0%B2%D0%B0%D1%82%D0%B0%D1%80%D0%BA%D0%B0%20%D0%BE%D1%87%D0%B5%D0%BD%D1%8C%20%D1%81%D0%BC%D0%BE%D0%BB.jpg');"></div>
+                            <div class="client-details">
+                                <h4>Акка Панкейк</h4>
+                                <p>Карасиковая</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Подвал -->
+    
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-column">
+                    <h3>Магазин</h3>
+                    <ul>
+                        <li><a href="index.html">Главная</a></li>
+                        <li><a href="about.html">О нас</a></li>
+                        <li><a href="order.html">Заказать</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>Контакты</h3>
+                    <ul>
+                        <li> г. Ростов-на-Дону</li>
+                        <li>8‒800‒555‒16‒15</li>
+                        <li>info@flower.ru</li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>Часы работы</h3>
+                    <ul>
+                        <li>Пн-Пт: 9:00 - 20:00</li>
+                        <li>Сб-Вс: 10:00 - 18:00</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="copyright">
+                <p>© 2025 Chocolate. Все права защищены.</p>
+            </div>
+        </div>
+    </footer>
+    <button class="scroll-top"><i class="fas fa-arrow-up"></i></button>
+
+    <div class="modal quick-view-modal">
+        <div class="modal-content">
+            <button class="modal-close"><i class="fas fa-times"></i></button>
+            <div class="modal-body">
+
+            </div>
+        </div>
+    </div>
+
+    <script src="js/modules/script.js"></script>
+    <script src="js/modules/auth.js"></script>
+    <script src="js/modules/auth-ui.js"></script>
+</body>
+</html>
