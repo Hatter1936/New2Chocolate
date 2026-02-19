@@ -123,47 +123,43 @@ if (window.cartUI) {
             try {
                 console.log('🛒 Добавление товара:', product);
                 const token = localStorage.getItem('access_token');
-                const headers = {
-                    'Content-Type': 'application/json',
-                };
                 
-                if (token) {
-                    headers['Authorization'] = `Bearer ${token}`;
+                if (!token) {
+                    console.log('Нет токена, редирект на логин');
+                    window.location.href = 'login.html?redirect=catalog.html';
+                    return false;
                 }
-
+                
+                console.log('Токен:', token.substring(0, 20) + '...');
+                
                 const response = await fetch(`${this.apiUrl}add_item/`, {
                     method: 'POST',
-                    headers: headers,
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}`
+                    },
                     body: JSON.stringify({
                         product_id: product.id,
                         quantity: product.quantity || 1
                     })
                 });
 
+                console.log('Статус ответа корзины:', response.status);
+                
                 if (response.ok) {
-                    // Получаем обновлённую корзину
                     const updatedCart = await response.json();
-                    this.cachedCart = updatedCart; // Обновляем кеш
-                    
-                    // Обновляем счётчик
+                    this.cachedCart = updatedCart;
                     this.updateCartCounter(updatedCart);
-                    
-                    // Показываем уведомление
                     this.showNotification('Товар добавлен в корзину', 'success');
-                    
-                    // Если мы на странице корзины, перерисовываем
-                    if (window.location.pathname.includes('cart.html')) {
-                        this.renderCartPage(updatedCart);
-                    }
                     return true;
                 } else {
                     const error = await response.json();
+                    console.error('Ошибка корзины:', error);
                     this.showNotification(error.error || 'Ошибка добавления', 'error');
                     return false;
                 }
             } catch (error) {
                 console.error('Ошибка добавления в корзину:', error);
-                this.showNotification('Ошибка соединения', 'error');
                 return false;
             }
         }

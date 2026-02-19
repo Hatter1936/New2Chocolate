@@ -40,7 +40,7 @@ class ProductViewSet(viewsets.ReadOnlyModelViewSet):
     """
     ViewSet для товаров (только чтение для пользователей)
     """
-    queryset = Product.objects.filter(is_active=True, in_stock=True).select_related(
+    queryset = Product.objects.all().select_related(
         'category'
     ).prefetch_related('tags', 'images')
     

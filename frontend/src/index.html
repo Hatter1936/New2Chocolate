@@ -35,13 +35,14 @@
     </header>
 
     <!-- Герой-секция -->
-    <section class="hero">
+    <section class="hero" id="hero-parallax">
         <div class="hero-slider">
-            <div class="slide active" style="background-image: linear-gradient(rgba(121, 85, 72, 0.6), rgba(141, 110, 99, 0.6)), url('https://i.pinimg.com/originals/1b/fa/79/1bfa79eb80a8493df605f27b58d47eda.jpg');">
+            <div class="slide active">
+                <div class="parallax-bg" style="background-image: linear-gradient(rgba(109, 78, 67, 0.8), rgba(128, 98, 87, 0.4)), url('css/images/index.jpeg');"></div>
                 <div class="container">
                     <h1>Сайт точно про шоколадные фигурки</h1>
                     <p>Мы любим акито шинономе.</p>
-                    <a href="order.html" class="btn">Заказать букет</a>
+                    <a href="order.html" class="btn">Заказать фигурку</a>
                 </div>
             </div>
         </div>
@@ -50,72 +51,47 @@
     <!-- Популярные товары -->
     <section class="popular">
         <div class="container">
-            <h2 class="section-title">Популярные букеты</h2>
-            <p class="section-subtitle">Выберите идеальный букет для любого случая</p>
+            <h2 class="section-title">Шоколадные хиты</h2>
+            <p class="section-subtitle">А какую фигуру попробуешь ты?</p>
 
             <div class="product-grid">
                 <div class="product-card">
-                    <div class="product-img" style="background-image: url('https://i.pinimg.com/736x/97/78/33/9778339cf8a1e1e1851e6b6ed4ce81c6.jpg');">
+                    <div class="product-img" style="background-image: url('https://i.pinimg.com/736x/85/0d/23/850d2323fd9877e07d930def291f3bb0.jpg');">
                         <span class="product-badge">Хит продаж</span>
                         <button class="wishlist-btn"><i class="far fa-heart"></i></button>
                     </div>
                     <div class="product-info">
-                        <h3>Романтический букет</h3>
-                        <p>Нежные розы и пионы в элегантной упаковке</p>
-                        <div class="product-rating">
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star-half-alt"></i>
-                            <span>(24)</span>
-                        </div>
+                        <h3>Шоколадные розы</h3>
+                        <p>Нежнейшие цветы из молочного шоколада</p>
                         <div class="product-price">
                             <span class="current-price">3 500 ₽</span>
-                            <span class="old-price">4 200 ₽</span>
                         </div>
                     </div>
                 </div>
 
                 <div class="product-card">
-                    <div class="product-img" style="background-image: url('https://i.pinimg.com/736x/48/8b/9b/488b9b95779fdf4cf9a10121874ee0e2.jpg');">
+                    <div class="product-img" style="background-image: url('https://ir-3.ozone.ru/s3/multimedia-b/c800/6829469975.jpg');">
                         <button class="wishlist-btn"><i class="far fa-heart"></i></button>
                     </div>
                     <div class="product-info">
-                        <h3>Весеннее настроение</h3>
-                        <p>Яркие тюльпаны и гиацинты в корзине</p>
-                        <div class="product-rating">
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="far fa-star"></i>
-                            <span>(18)</span>
-                        </div>
+                        <h3>Шоколадный медведь</h3>
+                        <p>Очень вкусный напарник</p>
                         <div class="product-price">
-                            <span class="current-price">2 800 ₽</span>
+                            <span class="current-price">1 000 ₽</span>
                         </div>
                     </div>
                 </div>
 
                 <div class="product-card">
-                    <div class="product-img" style="background-image: url('https://i.pinimg.com/736x/c4/ae/f0/c4aef06a3a32c70ce1ed75271ab1d3e5.jpg');">
+                    <div class="product-img" style="background-image: url('https://vshokolade.pro/upload/shop_1/1/item_1093/item_image1093.jpg');">
                         <span class="product-badge new">Новинка</span>
                         <button class="wishlist-btn"><i class="far fa-heart"></i></button>
                     </div>
                     <div class="product-info">
-                        <h3>Элегантность</h3>
-                        <p>Белые розы, гортензии</p>
-                        <div class="product-rating">
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <span>(32)</span>
-                        </div>
+                        <h3>Шоколадный ангел</h3>
+                        <p>Почувствуйте себя на седьмом небе от вкуса</p>
                         <div class="product-price">
-                            <span class="current-price">4 200 ₽</span>
+                            <span class="current-price">2 000 ₽</span>
                         </div>
                     </div>
                 </div>
@@ -134,23 +110,23 @@
             <p class="section-subtitle">Фигуры из шоколада на ваш выбор</p>
 
             <div class="category-grid">
-                <a href="category.html?cat=dark" class="category-card">
-                    <div class="category-img" style="background-image: url('https://i.pinimg.com/736x/04/99/5d/04995d268635d11f1ee0a659525a0711.jpg');"></div>
+                <a href="catalog.html?cat=dark" class="category-card">
+                    <div class="category-img" style="background-image: url('https://blog.farazcenter.com/wp-content/uploads/2024/09/12_dark_chocolate_benefits_for_your_body_and_mind_header.webp');"></div>
                     <h3>Тёмный</h3>
                 </a>
 
-                <a href="category.html?cat=ruby" class="category-card">
-                    <div class="category-img" style="background-image: url('https://i.pinimg.com/736x/ac/ed/d2/acedd2e2b953d0637e41e9fffdbbfee7.jpg');"></div>
+                <a href="catalog.html?cat=ruby" class="category-card">
+                    <div class="category-img" style="background-image: url('https://i.pinimg.com/736x/87/70/6f/87706f08102fb4c7727c845e847917eb.jpg');"></div>
                     <h3>Рубиновый</h3>
                 </a>
 
-                <a href="category.html?cat=milk" class="category-card">
-                    <div class="category-img" style="background-image: url('https://i.pinimg.com/736x/d9/6d/7c/d96d7c6e332d711c13acb67193b7380a.jpg');"></div>
+                <a href="catalog.html?cat=milk" class="category-card">
+                    <div class="category-img" style="background-image: url('https://avatars.mds.yandex.net/get-altay/13970739/2a00000190dcc3a80a94c8019db3e947e7f3/XXL_height');"></div>
                     <h3>Молочный</h3>
                 </a>
 
-                <a href="category.html?cat=color" class="category-card">
-                    <div class="category-img" style="background-image: url('https://i.pinimg.com/736x/44/b8/fa/44b8fa8a8744b195159eb5a3a19e2919.jpg');"></div>
+                <a href="catalog.html?cat=color" class="category-card">
+                    <div class="category-img" style="background-image: url('https://i.etsystatic.com/5470846/r/il/b60083/1301318099/il_1588xN.1301318099_jomo.jpg');"></div>
                     <h3>Цветной</h3>
                 </a>
             </div>
@@ -166,22 +142,22 @@
                 <div class="feature-card">
                     <div class="feature-icon"><i class="fas fa-truck"></i></div>
                     <h3>Быстрая доставка</h3>
-                    <p>Доставка в день заказа в пределах города. Курьер позвонит за 30 минут до приезда.</p>
+                    <p>Доставка в день заказа в пределах квартала. Курьер позвонит за 10 дней до приезда.</p>
                 </div>
                 <div class="feature-card">
                     <div class="feature-icon"><i class="fas fa-leaf"></i></div>
-                    <h3>Свежие цветы</h3>
-                    <p>Только свежие цветы от проверенных поставщиков. Гарантия свежести 7 дней.</p>
+                    <h3>Свежие продукты</h3>
+                    <p>Только свежие продукты от подозрительных поставщиков. Гарантия свежести 365 лет.</p>
                 </div>
                 <div class="feature-card">
                     <div class="feature-icon"><i class="fas fa-gift"></i></div>
                     <h3>Подарочная упаковка</h3>
-                    <p>Красивая упаковка и открытка в подарок. Возможность добавить мягкую игрушку или конфеты.</p>
+                    <p>Красивая коробка и автограф Вани в подарок. Возможность добавить банку мёда🍯 от Вани.</p>
                 </div>
                 <div class="feature-card">
                     <div class="feature-icon"><i class="fas fa-lock"></i></div>
                     <h3>Безопасная оплата</h3>
-                    <p>Оплата онлайн или наличными при получении. Все платежи защищены.</p>
+                    <p>Оплата через алабугу политех. Все платежи идут нам в карман.</p>
                 </div>
             </div>
         </div>
@@ -205,7 +181,7 @@
                         </div>
                         <p class="testimonial-text">"Мда фигурки фигня полная."</p>
                         <div class="client-info">
-                            <div class="client-photo" style="background-image: url('file:///E:/1%D0%9A%D0%BB%D0%B0%D0%B4%D0%BE%D0%B2%D0%BA%D0%B0/0.5%20%D0%92%D1%80%D0%B5%D0%BC%D0%B5%D0%BD%D0%B0%20%D0%BE%D0%B1%D0%B2%D0%BE%D0%B4%D0%BE%D0%BA/%D0%AF+%D0%9C%D1%8D%D0%B9%D0%B1%D0%BB.png');"></div>
+                            <div class="client-photo" style="background-image: url('https://sun9-84.userapi.com/s/v1/ig2/4iqxHhbxSVkjuHb0kvF2nhLUZ-l_1jkkNCBq4J3ZHAQDSDznLv-E40jJ-wlsDa5AkHDwj_OQ_aST2gK5AprHQcx-.jpg?quality=95&as=32x26,48x38,72x58,108x86,160x128,240x192,360x288,480x384,540x432,640x512,720x576,1080x864,1280x1024&from=bu&cs=1280x0');"></div>
                             <div class="client-details">
                                 <h4>Скибиди Сигма</h4>
                                 <p>Москва</p>
@@ -245,7 +221,7 @@
                         </div>
                         <p class="testimonial-text">"Я люблю акито шинономе"</p>
                         <div class="client-info">
-                            <div class="client-photo" style="background-image: url('file:///E:/%D0%BA%D0%B8%D1%80%D0%B8%D0%BD%D1%8B%20%D1%84%D0%B0%D0%B9%D0%BB%D1%8B/%D0%90%D1%80%D1%82%D1%8B/%D0%B0%D0%B2%D0%B0%D1%82%D0%B0%D1%80%D0%BA%D0%B0%20%D0%BE%D1%87%D0%B5%D0%BD%D1%8C%20%D1%81%D0%BC%D0%BE%D0%BB.jpg');"></div>
+                            <div class="client-photo" style="background-image: url('https://sun9-71.userapi.com/s/v1/ig2/p2kIwqFttbkCGJbBQjJSUQGndnTmXYXRsIjNXaldanjtXODE7516nPSZKVriY88_z3XDxDSGBicjwxoUOyM8L288.jpg?quality=95&as=32x32,48x48,72x72,108x108,160x160,240x240,360x360,480x480,540x540,640x640,720x720,1080x1080,1280x1280,1440x1440,1500x1500&from=bu&cs=1500x0');"></div>
                             <div class="client-details">
                                 <h4>Акка Панкейк</h4>
                                 <p>Карасиковая</p>
@@ -266,6 +242,7 @@
                     <h3>Магазин</h3>
                     <ul>
                         <li><a href="index.html">Главная</a></li>
+                        <li><a href="catalog.html">Фигуры</a></li>
                         <li><a href="about.html">О нас</a></li>
                         <li><a href="order.html">Заказать</a></li>
                     </ul>
@@ -274,15 +251,15 @@
                     <h3>Контакты</h3>
                     <ul>
                         <li> г. Ростов-на-Дону</li>
-                        <li>8‒800‒555‒16‒15</li>
-                        <li>info@flower.ru</li>
+                        <li>8‒800‒555‒35‒35</li>
+                        <li>aminkarasik@choco.ru</li>
                     </ul>
                 </div>
                 <div class="footer-column">
                     <h3>Часы работы</h3>
                     <ul>
-                        <li>Пн-Пт: 9:00 - 20:00</li>
-                        <li>Сб-Вс: 10:00 - 18:00</li>
+                        <li>Пн-Пт: Круглосуточно</li>
+                        <li>Сб-Вс: Круглосуточно</li>
                     </ul>
                 </div>
             </div>

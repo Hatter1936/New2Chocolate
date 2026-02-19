@@ -59,7 +59,7 @@ class Product(BaseModel):
                                     verbose_name='Старая цена')
     
     # Изображения
-    main_image = models.ImageField(upload_to='products/', verbose_name='Главное изображение')
+    main_image = models.ImageField(upload_to='products/', blank=True, null=True, verbose_name='Главное изображение')
     
     # Связи
     category = models.ForeignKey(Category, on_delete=models.PROTECT, related_name='products', 

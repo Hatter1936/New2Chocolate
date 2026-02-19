@@ -97,12 +97,24 @@ if (typeof Auth === 'undefined') {
             try {
                 console.log('Вход с данными:', credentials);
                 
+                // Подготавливаем данные для API
+                const apiData = {};
+                if (credentials.email) {
+                    apiData.email = credentials.email;
+                } else if (credentials.username) {
+                    // Если передан username, но API ждет email - пробуем как email
+                    apiData.email = credentials.username;
+                } else {
+                    apiData.email = credentials.email;
+                }
+                apiData.password = credentials.password;
+                
                 const response = await fetch(`${this.apiUrl}login/`, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
                     },
-                    body: JSON.stringify(credentials)
+                    body: JSON.stringify(apiData)
                 });
 
                 const data = await response.json();
@@ -125,9 +137,11 @@ if (typeof Auth === 'undefined') {
                     
                     return { success: true, data };
                 } else {
-                    // Подробное сообщение об ошибке
                     let errorMessage = 'Ошибка входа';
-                    if (data.detail) errorMessage = data.detail;
+                    if (data.email) errorMessage = data.email[0];
+                    else if (data.username) errorMessage = data.username[0];
+                    else if (data.password) errorMessage = data.password[0];
+                    else if (data.detail) errorMessage = data.detail;
                     else if (data.non_field_errors) errorMessage = data.non_field_errors[0];
                     else if (data.error) errorMessage = data.error;
                     else errorMessage = JSON.stringify(data);

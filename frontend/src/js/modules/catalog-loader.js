@@ -1,19 +1,66 @@
+// Кеш и синхронизация
+window.catalogLoader = {
+    clearCache: function() {
+        cachedProducts = null;
+        isLoading = false;
+        lastLoadTime = 0;
+        localStorage.removeItem('catalog_products');
+        localStorage.removeItem('catalog_timestamp');
+        console.log('Кеш каталога очищен');
+    }
+};
+
+// Слушаем события обновления каталога из админки
+window.addEventListener('catalog-update', function() {
+    console.log('Получено событие обновления каталога');
+    cachedProducts = null;
+    localStorage.removeItem('catalog_products');
+    localStorage.removeItem('catalog_timestamp');
+    
+    // Если мы на странице каталога - перезагружаем товары
+    if (window.location.pathname.includes('catalog.html') || 
+        window.location.pathname.includes('category.html')) {
+        displayAllProducts();
+    }
+});
+
+// Переменные для кеширования
 let isLoading = false;
 let lastLoadTime = 0;
 const MIN_LOAD_INTERVAL = 2000;
 let cachedProducts = null;
 
+// Загрузка данных с сервера
 async function loadBouquetsData(forceRefresh = false) {
-    // Защита от слишком частых вызовов
+    forceRefresh = true;
+
     const now = Date.now();
+    
+    // Защита от слишком частых вызовов
     if (!forceRefresh && isLoading) {
         console.log('Загрузка уже выполняется, пропускаем');
         return null;
     }
     
+    // Проверяем кеш в памяти
     if (!forceRefresh && cachedProducts) {
-        console.log('Используем кешированные данные');
+        console.log('Используем кешированные данные в памяти');
         return cachedProducts;
+    }
+    
+    // Проверяем кеш в localStorage
+    if (!forceRefresh) {
+        const storedProducts = localStorage.getItem('catalog_products');
+        const storedTimestamp = localStorage.getItem('catalog_timestamp');
+        
+        if (storedProducts && storedTimestamp) {
+            const age = now - parseInt(storedTimestamp);
+            if (age < 60000) {
+                console.log('Используем кешированные данные из localStorage');
+                cachedProducts = JSON.parse(storedProducts);
+                return cachedProducts;
+            }
+        }
     }
     
     if (!forceRefresh && (now - lastLoadTime < MIN_LOAD_INTERVAL)) {
@@ -26,7 +73,7 @@ async function loadBouquetsData(forceRefresh = false) {
     
     try {
         const API_URL = 'http://127.0.0.1:8000/api/catalog/products/';
-        console.log('Загружаем с URL:', API_URL);
+        console.log('Загружаем товары с сервера:', API_URL);
         
         const response = await fetch(API_URL);
         console.log('Статус ответа:', response.status);
@@ -36,12 +83,12 @@ async function loadBouquetsData(forceRefresh = false) {
         }
         
         const data = await response.json();
-        console.log('Сырые данные от API:', data);
+        console.log('Получены данные от API:', data);
         
         const products = data.results || data; 
-        console.log('Товары после обработки:', products);
-        console.log('Количество товаров:', products.length);
+        console.log('Товаров получено:', products.length);
         
+        // Группируем товары по категориям
         const bouquetsData = [];
         const categories = {};
         
@@ -67,10 +114,13 @@ async function loadBouquetsData(forceRefresh = false) {
         });
         
         const result = Object.values(categories);
-        console.log('Итоговые данные для фронтенда:', result);
+        console.log('Итоговые данные для отображения:', result);
         
         // Сохраняем в кеш
         cachedProducts = result;
+        localStorage.setItem('catalog_products', JSON.stringify(result));
+        localStorage.setItem('catalog_timestamp', now.toString());
+        
         return result;
         
     } catch (error) {
@@ -89,17 +139,14 @@ function createRatingStars(rating) {
     
     let starsHtml = '';
     
-    // Полные звезды
     for (let i = 0; i < fullStars; i++) {
         starsHtml += '<i class="fas fa-star"></i>';
     }
     
-    // Половина звезды
     if (hasHalfStar) {
         starsHtml += '<i class="fas fa-star-half-alt"></i>';
     }
     
-    // Пустые звезды
     for (let i = 0; i < emptyStars; i++) {
         starsHtml += '<i class="far fa-star"></i>';
     }
@@ -109,15 +156,16 @@ function createRatingStars(rating) {
 
 // Функция для отображения всех товаров
 async function displayAllProducts() {
+    console.log('Отображение всех товаров');
     const productsContainer = document.getElementById('products-container');
-    if (!productsContainer) return;
+    if (!productsContainer) {
+        console.log('Контейнер products-container не найден');
+        return;
+    }
     
-    // Показываем загрузку
     productsContainer.innerHTML = '<div class="loading">Загрузка товаров...</div>';
     
     const bouquetsData = await loadBouquetsData();
-    
-    console.log('displayAllProducts получил данные:', bouquetsData);
     
     if (!bouquetsData || !Array.isArray(bouquetsData)) {
         productsContainer.innerHTML = '<div class="error">Ошибка загрузки товаров</div>';
@@ -128,17 +176,12 @@ async function displayAllProducts() {
     let allProducts = [];
     
     bouquetsData.forEach((category, index) => {
-        console.log(`Обрабатываем категорию ${index}:`, category);
-        
         if (!category || typeof category !== 'object' || !category.products) {
-            console.warn('Пропускаем некорректную категорию:', category);
             return;
         }
         
         const categoryTitle = category.title || 'Без названия';
         const categoryProducts = category.products;
-        
-        console.log(`Категория "${categoryTitle}", товаров: ${categoryProducts.length}`);
         
         if (Array.isArray(categoryProducts)) {
             categoryProducts.forEach(product => {
@@ -148,24 +191,22 @@ async function displayAllProducts() {
                     categoryTitle: categoryTitle
                 });
             });
-        } else {
-            console.warn('products не является массивом:', categoryProducts);
         }
     });
     
-    console.log('Всего товаров собрано:', allProducts.length);
+    console.log(`Всего товаров для отображения: ${allProducts.length}`);
     
     if (allProducts.length === 0) {
         productsContainer.innerHTML = '<div class="no-products">Товары не найдены</div>';
         return;
     }
     
-    // Отображаем товары
     displayProducts(allProducts, productsContainer);
 }
 
 // Функция для отображения товаров конкретной категории
 async function displayCategoryProducts(categoryId) {
+    console.log(`Отображение категории: ${categoryId}`);
     const productsContainer = document.getElementById('products-container');
     if (!productsContainer) return;
     
@@ -178,12 +219,13 @@ async function displayCategoryProducts(categoryId) {
         return;
     }
     
+    // Маппинг ID категорий из URL в названия
     const categoryMap = {
-        'romantic': 'Романтические букеты',
-        'wedding': 'Свадебные букеты',
-        'spring': 'Весенние букеты',
-        'birthday': 'Букеты на день рождения',
-        'business': 'Деловые букеты',
+        'dark': 'Горький шоколад',
+        'milk': 'Молочный шоколад',
+        'ruby': 'Рубиновый шоколад',
+        'white': 'Белый шоколад',
+        'color': 'Цветной шоколад',
         'all': 'Все'
     };
     
@@ -220,10 +262,10 @@ function displayProducts(products, container) {
         
         const priceHtml = product.oldPrice 
             ? `<div class="product-price">
-                <span class="current-price">${product.price.toLocaleString()} ₽</span>
-                <span class="old-price">${product.oldPrice.toLocaleString()} ₽</span>
+                <span class="current-price">${Number(product.price).toLocaleString()} ₽</span>
+                <span class="old-price">${Number(product.oldPrice).toLocaleString()} ₽</span>
                </div>`
-            : `<div class="product-price">${product.price.toLocaleString()} ₽</div>`;
+            : `<div class="product-price">${Number(product.price).toLocaleString()} ₽</div>`;
         
         let badgeHtml = '';
         if (product.rating >= 4.8) {
@@ -264,7 +306,7 @@ function displayProducts(products, container) {
     
     container.innerHTML = html;
     
-    // ЕДИНСТВЕННЫЙ обработчик для кнопок "В корзину"
+    // Добавляем обработчики для кнопок "В корзину"
     document.querySelectorAll('.add-to-cart').forEach(button => {
         button.addEventListener('click', async (e) => {
             e.preventDefault();
@@ -278,12 +320,15 @@ function displayProducts(products, container) {
                 quantity: 1
             };
             
-            console.log('Добавление в корзину:', product);
+            console.log('🛒 Добавление в корзину:', product);
             
             if (window.cartUI && typeof window.cartUI.addItem === 'function') {
-                await window.cartUI.addItem(product);
+                const result = await window.cartUI.addItem(product);
+                if (result) {
+                    console.log('Товар добавлен в корзину');
+                }
             } else {
-                console.error('cartUI не найден');
+                console.error('Корзина не найдена');
                 alert('Ошибка: корзина не инициализирована');
             }
         });
@@ -305,7 +350,6 @@ let isInitialized = false;
 
 // Инициализация при загрузке страницы
 document.addEventListener('DOMContentLoaded', async function() {
-    // Защита от множественных вызовов
     if (isInitialized) {
         console.log('Инициализация уже была выполнена');
         return;
@@ -320,6 +364,7 @@ document.addEventListener('DOMContentLoaded', async function() {
     if (isCatalogPage) {
         await displayAllProducts();
         
+        // Обработчики для фильтров
         const filterTabs = document.querySelectorAll('.filter-tab');
         filterTabs.forEach(tab => {
             tab.addEventListener('click', function(e) {
@@ -341,6 +386,19 @@ document.addEventListener('DOMContentLoaded', async function() {
                 }
             });
         });
+        
+        // Устанавливаем активный фильтр из URL
+        const urlParams = new URLSearchParams(window.location.search);
+        const currentCat = urlParams.get('cat') || 'all';
+        
+        filterTabs.forEach(tab => {
+            const href = tab.getAttribute('href');
+            if (href.includes(`cat=${currentCat}`)) {
+                tab.classList.add('active');
+            } else if (currentCat === 'all' && href.includes('cat=all')) {
+                tab.classList.add('active');
+            }
+        });
     }
     
     if (isCategoryPage) {
@@ -350,21 +408,6 @@ document.addEventListener('DOMContentLoaded', async function() {
         } else {
             await displayAllProducts();
         }
-    }
-    
-    if (isCatalogPage) {
-        const urlParams = new URLSearchParams(window.location.search);
-        const currentCat = urlParams.get('cat') || 'all';
-        
-        const filterTabs = document.querySelectorAll('.filter-tab');
-        filterTabs.forEach(tab => {
-            const href = tab.getAttribute('href');
-            if (href.includes(`cat=${currentCat}`)) {
-                tab.classList.add('active');
-            } else if (currentCat === 'all' && href.includes('cat=all')) {
-                tab.classList.add('active');
-            }
-        });
     }
 });
 
@@ -380,13 +423,16 @@ if (!document.getElementById('catalog-loader-styles')) {
             grid-column: 1 / -1;
         }
         .loading {
-            color: var(--secondary-color);
+            color: #795548;
+        }
+        .loading i {
+            margin-right: 10px;
         }
         .error {
             color: #dc3545;
         }
         .no-products {
-            color: var(--secondary-color);
+            color: #795548;
         }
         
         /* Стили для уведомления о добавлении в корзину */
@@ -425,14 +471,20 @@ if (!document.getElementById('catalog-loader-styles')) {
             background-color: #5d4037;
             color: white;
             border-radius: 50%;
-            width: 18px;
-            height: 18px;
+            width: 20px;
+            height: 20px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 10px;
+            font-size: 11px;
             font-weight: bold;
+        }
+        
+        a[href="cart.html"] {
+            position: relative;
         }
     `;
     document.head.appendChild(style);
 }
+
+console.log('catalog-loader.js загружен');

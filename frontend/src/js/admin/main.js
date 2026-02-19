@@ -1,27 +1,34 @@
 // Глобальный объект для админ-панели
 const Admin = {
     products: [],
-    originalData: null,
     
     // Инициализация
     init: async function() {
-        await this.loadData();
+        console.log('Админка инициализируется...');
+        
+        // Проверяем токен
+        const token = localStorage.getItem('access_token');
+        if (!token) {
+            window.location.href = 'login.html?redirect=admin.html';
+            return;
+        }
+        
+        await this.loadProducts();
         this.attachEventListeners();
     },
     
-    // Загрузка данных
-    loadData: async function() {
-        const data = await loadProductsData();
-        if (data && data.bouquetsData) {
-            this.originalData = data;
-            this.products = flattenProducts(data.bouquetsData);
+    // Загрузка товаров
+    loadProducts: async function() {
+        const products = await AdminAPI.getProducts();
+        if (products && products.length > 0) {
+            this.products = products;
             this.renderTable();
         } else {
             document.getElementById('productsTableBody').innerHTML = `
                 <tr>
                     <td colspan="7" class="error-message">
-                        <i class="fas fa-exclamation-triangle"></i>
-                        Ошибка загрузки данных
+                        <i class="fas fa-info-circle"></i>
+                        Нет товаров. Добавьте первый товар!
                     </td>
                 </tr>
             `;
@@ -42,16 +49,33 @@ const Admin = {
     
     // Создание строки таблицы
     createProductRow: function(product) {
+        // Получаем название категории
+        let categoryName = 'Молочный';
+        const categoryId = product.category ? (product.category.id || product.category) : 1;
+        
+        const categoryMap = {
+            1: 'Молочный',
+            2: 'Горький',
+            3: 'Белый',
+            4: 'Рубиновый',
+            5: 'Цветной'
+        };
+        
+        categoryName = categoryMap[categoryId] || 'Молочный';
+        
         return `
             <tr>
                 <td>${product.id}</td>
                 <td>
-                    <img src="${product.image}" alt="${product.name}">
+                    <img src="${product.main_image || 'https://via.placeholder.com/80'}" 
+                        alt="${product.name}"
+                        style="width: 80px; height: 80px; object-fit: cover; border-radius: 5px;"
+                        onerror="this.src='https://via.placeholder.com/80'">
                 </td>
                 <td>${product.name}</td>
-                <td>${product.description}</td>
-                <td>${product.price.toLocaleString()} ₽</td>
-                <td>${product.categoryName}</td>
+                <td>${(product.description || '').substring(0, 100)}...</td>
+                <td>${Number(product.price).toLocaleString()} ₽</td>
+                <td>${categoryName}</td>
                 <td>
                     <div class="admin-actions">
                         <button class="edit-btn" title="Редактировать" onclick="Admin.editProduct(${product.id})">
@@ -70,39 +94,52 @@ const Admin = {
     editProduct: function(id) {
         const product = this.products.find(p => p.id === id);
         if (product) {
+            // Получаем название категории
+            let categoryName = 'Молочный';
+            const categoryId = product.category ? (product.category.id || product.category) : 1;
+            
+            const categoryMap = {
+                1: 'Молочный',
+                2: 'Горький',
+                3: 'Белый',
+                4: 'Рубиновый',
+                5: 'Цветной'
+            };
+            
+            categoryName = categoryMap[categoryId] || 'Молочный';
+            
             Modal.fillForEdit({
                 id: product.id,
                 name: product.name,
-                description: product.description,
+                description: product.description || '',
                 price: product.price,
-                category: product.categoryName // Показываем русское название
+                category: categoryName
             });
         }
     },
     
     // Удаление товара
-    deleteProduct: function(id) {
+    deleteProduct: async function(id) {
         if (confirm('Вы уверены, что хотите удалить эту фигурку?')) {
-            // Находим товар
-            const product = this.products.find(p => p.id === id);
-            
-            // Удаляем из плоского списка
-            this.products = this.products.filter(p => p.id !== id);
-            
-            const newBouquetsData = unflattenProducts(this.products);
-            
-            // Сохраняем
-            saveProductsData({ bouquetsData: newBouquetsData });
-            
-            // Перерисовываем таблицу
-            this.renderTable();
-            
-            Notification.show('Фигурка успешно удалена', 'success');
+            const success = await AdminAPI.deleteProduct(id);
+            if (success) {
+                this.products = this.products.filter(p => p.id !== id);
+                this.renderTable();
+                alert('Товар успешно удален!');
+                
+                // Обновляем каталог
+                if (window.catalogLoader) {
+                    window.catalogLoader.clearCache();
+                }
+                localStorage.removeItem('catalog_products');
+            } else {
+                alert('Ошибка при удалении');
+            }
         }
     },
     
     // Сохранение товара
-    saveProduct: function(event) {
+    saveProduct: async function(event) {
         event.preventDefault();
         
         const id = document.getElementById('productId').value;
@@ -112,69 +149,42 @@ const Admin = {
         const categoryName = document.getElementById('productCategory').value;
         const imageFile = document.getElementById('productImage').files[0];
         
-        let categoryKey;
-        switch(categoryName) {
-            case 'Горький': categoryKey = 'dark'; break;
-            case 'Молочный': categoryKey = 'milk'; break;
-            case 'Рубиновый': categoryKey = 'ruby'; break;
-            case 'Белый': categoryKey = 'white'; break;
-            case 'Цветной': categoryKey = 'color'; break;
-            default: categoryKey = 'milk';
+        if (!name || !description || !price || !categoryName) {
+            alert('Заполните все поля!');
+            return;
         }
         
-        let imageUrl;
+        const productData = {
+            name: name,
+            description: description,
+            price: price,
+            category: categoryName,
+            weight: 100,
+            quantity: 10
+        };
+        
         if (imageFile) {
-            // В реальном проекте здесь была бы загрузка на сервер
-            imageUrl = URL.createObjectURL(imageFile);
-        } else {
-            imageUrl = `https://via.placeholder.com/100x80/5d4037/ffffff?text=${encodeURIComponent(name.substring(0, 10))}`;
+            productData.image = imageFile;
         }
         
+        let result;
         if (id) {
-            const productIndex = this.products.findIndex(p => p.id === parseInt(id));
-            if (productIndex !== -1) {
-                this.products[productIndex] = {
-                    ...this.products[productIndex],
-                    name: name,
-                    description: description,
-                    price: price,
-                    categoryKey: categoryKey,
-                    categoryName: categoryName,
-                    image: imageUrl
-                };
-                
-                Notification.show('Фигурка успешно обновлена', 'success');
-            }
+            result = await AdminAPI.updateProduct(parseInt(id), productData);
         } else {
-            // Добавление нового товара
-            const nextId = Math.max(...this.products.map(p => p.id), 0) + 1;
-            
-            const newProduct = {
-                id: nextId,
-                name: name,
-                description: description,
-                price: price,
-                image: imageUrl,
-                rating: 5,
-                reviews: 0,
-                categoryKey: categoryKey,
-                categoryName: categoryName
-            };
-            
-            this.products.push(newProduct);
-            Notification.show('Фигурка успешно добавлена', 'success');
+            result = await AdminAPI.createProduct(productData);
         }
         
-        const newBouquetsData = unflattenProducts(this.products);
-        
-        // Сохраняем
-        saveProductsData({ bouquetsData: newBouquetsData });
-        
-        // Перерисовываем таблицу
-        this.renderTable();
-        
-        // Закрываем модальное окно
-        Modal.close();
+        if (result) {
+            await this.loadProducts();
+            Modal.close();
+            alert(id ? 'Товар обновлен!' : 'Товар создан!');
+            
+            // Обновляем каталог
+            if (window.catalogLoader) {
+                window.catalogLoader.clearCache();
+            }
+            localStorage.removeItem('catalog_products');
+        }
     },
     
     // Закрытие модального окна
@@ -182,9 +192,8 @@ const Admin = {
         Modal.close();
     },
     
-    // Привязка обработчиков событий
+    // Привязка обработчиков
     attachEventListeners: function() {
-        // Кнопка добавления
         const addBtn = document.getElementById('addProductBtn');
         if (addBtn) {
             addBtn.addEventListener('click', () => {
@@ -192,17 +201,15 @@ const Admin = {
             });
         }
         
-        // Форма сохранения
         const form = document.getElementById('productForm');
         if (form) {
-            form.addEventListener('submit', (e) => {
-                this.saveProduct(e);
-            });
+            form.removeEventListener('submit', this.saveProduct.bind(this));
+            form.addEventListener('submit', (e) => this.saveProduct(e));
         }
     }
 };
 
-// Инициализация при загрузке страницы
+// Инициализация
 document.addEventListener('DOMContentLoaded', () => {
     Admin.init();
 });
